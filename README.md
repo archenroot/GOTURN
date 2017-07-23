@@ -64,6 +64,14 @@ sudo apt-get install libopencv-dev
 sudo apt-get install libtinyxml-dev 
 ```
 
+* CPU_ONLY mode (optional and not recommended)
+
+GPUs are strongly suggested as the code runs ~30X slower in CPU_ONLY mode. It is listed as an option only if your system doesn’t have GPU support. To configure this, uncomment the `CPU_ONLY` line in `CMakeLists.txt` as shown below:
+```
+# Uncomment for CPU only:
+set(Caffe_DEFINITIONS -DCPU_ONLY)
+```
+
 ### Compile
 
 From the main directory, type:
@@ -118,6 +126,16 @@ Note that, for the pre-trained model downloaded above, after choosing hyperparam
 
 To evaluate test set performance, follow the instructions on the [VOT website](http://www.votchallenge.net/howto/index.html).
 The file test/test_tracker_vot.cpp is designed to integrate into the VOT testing framework.
+
+The results from running our tracker on the VOT 2014 dataset can be found [here](http://davheld.github.io/GOTURN/results.zip), and the report containing our results compared to the VOT 2014 baselines can be found [here]
+(http://davheld.github.io/GOTURN/report_vot2014_alov441_challenge.zip).  Our method, in the report, is referred to as "alov441" since ALOV is the dataset that we used for validation of our model.
+
+To reproduce these results, follow the instructions from the VOT website (linked above).  In run_analysis.m, make sure to use the following:
+
+```
+context = create_report_context('report_vot2014_tracker_challenge');
+report_challenge(context, experiments, trackers, sequences, 'methodology', 'vot2014'); % Use this report for official challenge report
+```
 
 ### Evaluate validation set performance
 To evaluate the trained tracker model on the validation set, run:
